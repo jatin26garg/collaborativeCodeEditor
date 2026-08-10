@@ -3,6 +3,7 @@ import { NextResponse, NextRequest } from "next/server";
 import { mongo } from "@/lib/mongo";
 import mongoose from "mongoose";
 import Projects from "@/Models/Projects";
+import User from "@/Models/User";
 import { Iuser } from "../route";
 import { ProjectResponse } from "../route";
 import { checkProjectAccess } from "@/lib/projecthelper";
