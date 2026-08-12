@@ -2,6 +2,9 @@ import { getAuthUser } from "@/lib/auth";
 import { NextResponse, NextRequest } from "next/server";
 import { mongo } from "@/lib/mongo";
 import mongoose from "mongoose";
+
+await mongo();
+
 import User from "@/Models/User";
 import Files from "@/Models/Files";
 import Projects from "@/Models/Projects";
