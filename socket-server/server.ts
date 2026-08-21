@@ -7,9 +7,7 @@ import Message from "../Models/Message";
 
 
 
-dotenv.config({
-    path: ".env.local",
-});
+dotenv.config();
 import { mongo } from "../lib/mongo";
 import { CreateTerminal, writeTerminal } from "@/lib/terminal";
 
@@ -17,7 +15,7 @@ const httpServer = createServer();
 
 const io = new Server(httpServer, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "https://collaborative-code-editor-s8r7.vercel.app/",
         credentials: true,
     },
 });
@@ -255,7 +253,7 @@ io.on("connection", async (socket) => {
     })
     socket.on("accept-call", ({ callerId, projectId, callerSocketId }) => {
         console.log("accepted req in server")
-        io.to(callerSocketId).emit("call-accepted",{reciverSocketId : socket.id})
+        io.to(callerSocketId).emit("call-accepted", { reciverSocketId: socket.id })
     })
     socket.on("reject-call", ({ callerId, projectId }) => {
         io.to(callerId).emit("call-rejected")
@@ -273,15 +271,15 @@ io.on("connection", async (socket) => {
         });
 
     })
-    
-    socket.on("file-created", ({projectId})=>{
+
+    socket.on("file-created", ({ projectId }) => {
         console.log("prject created")
         io.to(projectId).emit("refresh-files");
     })
-    socket.on("delete-file",({projectId})=>{
+    socket.on("delete-file", ({ projectId }) => {
         io.to(projectId).emit("refresh-files")
     })
-    socket.on("rename-file", ({projectId})=>{
+    socket.on("rename-file", ({ projectId }) => {
         io.to(projectId).emit("refresh-files")
     })
     socket.on("disconnect", () => {
@@ -311,9 +309,9 @@ io.on("connection", async (socket) => {
 
 async function startServer() {
     await mongo();
-
-    httpServer.listen(3001, () => {
-        console.log("running on port 3001");
+    const PORT = Number(process.env.PORT) || 3002;
+    httpServer.listen(PORT, () => {
+        console.log(`Socket server running on ${PORT}`);
     });
 }
 
